@@ -15,16 +15,12 @@ to execute the following commands:
 
 ```console
 user:~/Online-Chat/ $ rmiregistry &
-user:~/Online-Chat/ $ javac -d classes\
-					  -cp .:classes:lib/Chat.jar
-					  src/Server.java
+user:~/Online-Chat/ $ java -cp .:classes:lib/Connector.jar Server 
 ```
 
 Then to start a user connection:
 
 ```console
-user:~/Online-Chat/ $ rmiregistry &
-user:~/Online-Chat/ $ javac -d classes\
-					  -cp .:classes:lib/Chat.jar
-					  src/Client.java localhost 
+user:~/Online-Chat/ $ java -cp .:classes:lib/Connector.jar Client localhost 
+
 ```
