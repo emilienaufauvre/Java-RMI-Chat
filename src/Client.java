@@ -9,21 +9,25 @@ import java.rmi.registry.*;
 
 public interface Client extends Remote
 {
+	public static void main(String[] args) throws RemoteException 
+	{	
+		new BasicClient(parseArgs(args)).run();
+	}
+
+	public static String parseArgs(String[] args)
+	{
+		if (args.length < 1) 
+		{
+			return "localhost";
+		}
+
+		return args[0];
+	}
+
+
 	public String getName() throws RemoteException;
 
 	public void writeMessage(String sender, String message) throws RemoteException;
-
-
-	public static void main(String[] args) throws RemoteException 
-	{	
-		if (args.length < 1) 
-		{
-			System.out.println("Usage: java Client <rmiregistry host>");
-			return;
-		}
-
-		new BasicClient(args[0]).run();
-	}
 
 
 	@SuppressWarnings("serial")

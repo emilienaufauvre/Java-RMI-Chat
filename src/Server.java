@@ -14,7 +14,7 @@ public class Server
 			Connector connector_stub = (Connector) 
 				UnicastRemoteObject.exportObject(connector, 0);
 			// Register the remoted objects.
-			Registry registry = LocateRegistry.getRegistry(); 
+			Registry registry = LocateRegistry.getRegistry(parseArgs(args)); 
 			registry.rebind("rmi://server/ConnectService", connector_stub);
 			// Debug.
 			System.out.println ("Server ready...");
@@ -23,5 +23,15 @@ public class Server
 		{
 			System.err.println("Error: " + e);
 		}
+	}
+
+	public static String parseArgs(String[] args)
+	{
+		if (args.length < 1) 
+		{
+			return "localhost";
+		}
+
+		return args[0];
 	}
 }

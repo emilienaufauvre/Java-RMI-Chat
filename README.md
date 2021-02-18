@@ -21,6 +21,9 @@ user:~/Online-Chat/ $ java -cp .:classes:lib/Connector.jar Server
 Then to start a user connection:
 
 ```console
-user:~/Online-Chat/ $ java -cp .:classes:lib/Connector.jar Client localhost 
+user:~/Online-Chat/ $ java -cp .:classes:lib/Connector.jar Client <host> 
 
 ```
+
+Where __host__ is the machine on which the server was launched (__localhost__
+if not specified).
