@@ -1,23 +1,5 @@
 package superchat;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
-import javax.swing.DefaultListModel;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-
-import javax.imageio.ImageIO;
-
 import java.io.File;
 
 import java.awt.Container;
@@ -31,7 +13,31 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JLabel;
+import javax.swing.JTextPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import javax.swing.DefaultListModel;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.border.EmptyBorder;
 
+import javax.imageio.ImageIO;
+
+
+/**
+ * The GUI binded with a "Client".
+ */
 public class Application
 {
 	public static void main(String[] args) 
@@ -68,6 +74,18 @@ public class Application
 	private final String FONT = "";
 	private final String APP_NAME = "Super-chat v1";
 
+	public final static SimpleAttributeSet ATTR_PLAIN 
+		= new SimpleAttributeSet(); 
+	public final static SimpleAttributeSet ATTR_BOLD 
+		= new SimpleAttributeSet(); 
+	public final static SimpleAttributeSet ATTR_ITALIC 
+		= new SimpleAttributeSet(); 
+	public final static SimpleAttributeSet ATTR_ERROR 
+		= new SimpleAttributeSet(); 
+	public final static SimpleAttributeSet ATTR_SERVER 
+		= new SimpleAttributeSet(); 
+
+
 	// To manage the client session and messages. 
 	private Client.BasicClient mClient;
 	// App icon.
@@ -75,14 +93,16 @@ public class Application
 	// The GUI window.
 	private JFrame mFrame;
 	// The chat messages.
-	private JTextArea mChatArea;
+	private JTextPane mChatArea;
 	// The connected user names.
-	private DefaultListModel<String> mUsersList;
+	private DefaultListModel<String> mUserList;
 
 	public Application(Client.BasicClient client)
 	{
+		// Load text styles for the chat.
+		loadTextStyles();
 		// Load the app icon.
-		loadIcon();
+		loadAssets();
 		// Set pop up dialogs style.
 		setDialogs();
 		// Load the window.
@@ -92,7 +112,24 @@ public class Application
 		mClient.bindWithGUI(this);
 	}
 
-	private void loadIcon()
+	private void loadTextStyles()
+	{
+		// Bold.
+		StyleConstants.setBold(ATTR_BOLD, true);
+		StyleConstants.setFontSize(ATTR_BOLD, 25);
+		// Italic.
+		StyleConstants.setItalic(ATTR_ITALIC, true);
+		StyleConstants.setFontSize(ATTR_ITALIC, 30);
+		// Error.
+        StyleConstants.setBold(ATTR_ERROR, true); 
+        StyleConstants.setForeground(ATTR_ERROR, Color.red);
+		StyleConstants.setFontSize(ATTR_ERROR, 25);
+		// Server.
+        StyleConstants.setBold(ATTR_SERVER, true); 
+		StyleConstants.setFontSize(ATTR_SERVER, 25);
+	}
+
+	private void loadAssets()
 	{
 		try
 		{
@@ -216,14 +253,13 @@ public class Application
 	private JPanel getChatPanel()
 	{
 		// Message list.
-		mChatArea = new JTextArea("Welcome on super-chat v1.\n" +
-				"You can log in using the button at the bottom left.\n\n", 
-				30, 30);
+		mChatArea = new JTextPane();
 		mChatArea.setMargin(new Insets(20, 20, 20, 20));
 		mChatArea.setFont(new Font(FONT, Font.PLAIN, 25));
 		mChatArea.setEditable(false);
-		mChatArea.setLineWrap(true);
-		mChatArea.setWrapStyleWord(true);
+		addToChat("Welcome on super-chat v1.\n" +
+				"You can log in using the button at the bottom left.\n\n",
+				ATTR_ITALIC); 
 
 		JScrollPane scrollPane = new JScrollPane(mChatArea);
 
@@ -279,7 +315,7 @@ public class Application
 			if (! mClient.isConnected())
 			{
 				addToChat("[Server]: Please log in to " +
-					   "send messages.");	
+					   "send messages.", ATTR_SERVER);	
 				textField.setText("");
 				return ;
 			}
@@ -337,8 +373,8 @@ public class Application
 		panel_.setBorder(new EmptyBorder(0, 0, 20, 0));
 		panel_.add(label);
 		// User names.
-		mUsersList = new DefaultListModel<String>();
-		JList<String> list = new JList<String>(mUsersList);
+		mUserList = new DefaultListModel<String>();
+		JList<String> list = new JList<String>(mUserList);
 		list.setBorder(new EmptyBorder(40, 40, 40, 20));
 		list.setFont(new Font(FONT, Font.PLAIN, 25));
         list.setVisibleRowCount(8);
@@ -418,7 +454,7 @@ public class Application
 				else
 				{
 					addToChat("[Server]: Error on connection, " +
-							"your name was empty."); 
+							"your name was empty.", ATTR_ERROR); 
 				}
 			}
 		};
@@ -445,24 +481,42 @@ public class Application
 		};
 	}
 
-	public void addToChat(String message)
+	public void addToChat(String message, SimpleAttributeSet attributes) 
 	{
-		mChatArea.append(message + "\n");
-		mChatArea.setCaretPosition(mChatArea.getDocument().getLength());
+		Document doc = mChatArea.getDocument();
+
+		if (attributes == ATTR_ERROR || attributes == ATTR_SERVER)
+		{
+			message = "\n" + message + "\n\n";
+		}
+		else if (attributes == ATTR_PLAIN)
+		{
+			message = message + "\n";
+		}
+
+		try
+		{
+			doc.insertString(doc.getLength(), message, attributes);
+		}
+		catch (Exception e)
+		{
+		}
+
+		mChatArea.setCaretPosition(doc.getLength());
 	}
 
 	public void addToUsersList(String name)
 	{
-		mUsersList.addElement(name);
+		mUserList.addElement(name);
 	}
 
-	public void removeFromUsersList(String name)
+	public void removeFromUserList(String name)
 	{
-		mUsersList.removeElement(name);
+		mUserList.removeElement(name);
 	}
 
 	public void clearUsersList()
 	{
-		mUsersList.clear();
+		mUserList.clear();
 	}
 }

@@ -15,7 +15,7 @@ clean:
 compile:
 	
 	# Compiling the classes...
-	@javac -d classes/ src/*.java
+	@javac -Xlint -d classes/ src/*.java
 	# Creating client exec jar...
 	@cd classes/ \
 		&& jar cvfe ../lib/Application.jar superchat.Application \
