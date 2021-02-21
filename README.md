@@ -39,8 +39,8 @@ user:~/Online-Chat/ $ java -jar lib/Application.jar <host>
 * You are not using ***localhost*** as the server host, and you may be 
   starting ***rmiregistry*** from the wrong folder.
 
-> Exception in thread "main" java.awt.AWTError: Can't connect to <X server> 
-  using <IP address:x.x> as the value of the DISPLAY variable.
+> Exception in thread "main" java.awt.AWTError: Can't connect to \<X server\> 
+  using \<IP address:x.x\> as the value of the DISPLAY variable.
 
 * You may need to execute the `export DISPLAY=:0` command.
 
