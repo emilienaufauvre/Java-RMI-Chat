@@ -13,7 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 /**
  * Communicate with other clients by saving itself in the "RMI register", 
- * save states (messages and name) on the server with the "Connector",
+ * save states (messages and name) on the server with the "Linker",
  * and update the GUI. 
  */
 public interface Client extends Remote
@@ -46,7 +46,7 @@ public interface Client extends Remote
 		private String mName;
 		// Remoted objects.
 		private Registry mRegistry;
-		private Connector mConnector;
+		private Linker mLinker;
 		// To print messages and connected users.
 		private Application mApp; 
 
@@ -77,7 +77,7 @@ public interface Client extends Remote
 			try 
 			{
 				// Try to create the user with the pseudo on the server side.
-				if (! mConnector.connect(name))
+				if (! mLinker.connect(name))
 				{
 					mApp.addToChat("[Server]: Error, this pseudo is not available.", 
 							Application.ATTR_ERROR);
@@ -130,7 +130,7 @@ public interface Client extends Remote
 				// Try to unbind the user on the server side.
 				mRegistry.unbind("rmi://client/" + mName);
 				UnicastRemoteObject.unexportObject((Client) this, true);
-				mConnector.disconnect(mName);
+				mLinker.disconnect(mName);
 				mIsConnected = false;
 			}
 			catch (Exception e)
@@ -156,9 +156,9 @@ public interface Client extends Remote
 			try 
 			{
 				// Save this message on the server.
-				String time = mConnector.addMessage(mName, message);
+				String time = mLinker.addMessage(mName, message);
 				// Spread this message to every client (including herself/himself).
-				mConnector.getClientNames().stream().forEach(
+				mLinker.getClientNames().stream().forEach(
 						s -> 
 						{
 							try 
@@ -189,7 +189,7 @@ public interface Client extends Remote
 			try 
 			{
 				mRegistry = LocateRegistry.getRegistry(host); 
-				mConnector = (Connector) mRegistry.lookup("rmi://server/ConnectService");
+				mLinker = (Linker) mRegistry.lookup("rmi://server/ConnectService");
 			} 
 			catch (Exception e)  
 			{
@@ -208,7 +208,7 @@ public interface Client extends Remote
 		{
 			try 
 			{
-				mConnector.getClientNames().stream().forEach(
+				mLinker.getClientNames().stream().forEach(
 						s -> 
 						{
 							try 
@@ -246,7 +246,7 @@ public interface Client extends Remote
 		{
 			try 
 			{
-				mConnector.getClientNames().stream().forEach(
+				mLinker.getClientNames().stream().forEach(
 						s -> 
 						{
 							try 
@@ -281,7 +281,7 @@ public interface Client extends Remote
 
 			try 
 			{
-				mConnector.getClientMessages().stream().forEach(
+				mLinker.getClientMessages().stream().forEach(
 						m -> 
 						{
 							try

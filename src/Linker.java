@@ -14,7 +14,7 @@ import java.rmi.*;
  * Connect the server and all the client together by saving
  * the list of usernames currently used, and the messages sent.
  */
-public interface Connector extends Remote 
+public interface Linker extends Remote 
 {
 	/**
 	 * Add the message from sender to the server history. The server will
@@ -43,7 +43,7 @@ public interface Connector extends Remote
 	public void setClientMessages(ArrayList<Message> messages) throws RemoteException;
 
 
-	public class BasicConnector implements Connector 
+	public class BasicLinker implements Linker 
 	{
 		// Constants.
 		private final String DATE_FORMAT = "HH:mm:ss";
@@ -51,7 +51,7 @@ public interface Connector extends Remote
 		private ArrayList<String> mClientNames;
 		private ArrayList<Message> mClientMessages;
 
-		public BasicConnector()
+		public BasicLinker()
 		{
 			mClientNames = new ArrayList<>();
 			mClientMessages = new ArrayList<>();

@@ -15,7 +15,7 @@ import java.rmi.registry.LocateRegistry;
 
 
 /**
- * Create the "RMI register" and "Connector" used to communicate with clients, 
+ * Create the "RMI register" and "Linker" used to communicate with clients, 
  * and load/save messages history on start/shut off.
  */
 public class Server 
@@ -43,11 +43,11 @@ public class Server
 		+ "history"; 
 
 	// Linker btw server and clients.
-	private Connector.BasicConnector mConnector;
+	private Linker.BasicLinker mLinker;
 
 	public Server(String host)
 	{
-		mConnector = new Connector.BasicConnector();
+		mLinker = new Linker.BasicLinker();
 		// Create/check existence of message history file. 
 		createHomeDir();
 		createHistoryFile();
@@ -62,10 +62,10 @@ public class Server
 				LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
 			}
 			// Register the remoted object.
-			Connector connector_stub = (Connector) 
-				UnicastRemoteObject.exportObject(mConnector, 0);
+			Linker linker_stub = (Linker) 
+				UnicastRemoteObject.exportObject(mLinker, 0);
 			Registry registry = LocateRegistry.getRegistry(host);
-			registry.rebind("rmi://server/ConnectService", connector_stub);
+			registry.rebind("rmi://server/ConnectService", linker_stub);
 			// Save the messages when exiting.	
 			Runtime.getRuntime().addShutdownHook(new Thread(() -> saveMessageHistory()));
 		} 
@@ -87,11 +87,11 @@ public class Server
 					new FileInputStream(HISTORY_FILE_PATH));
 			// Then read the messages.
 			@SuppressWarnings("unchecked")
-			ArrayList<Connector.Message> messages = (ArrayList<Connector.Message>) stream.readObject(); 
+			ArrayList<Linker.Message> messages = (ArrayList<Linker.Message>) stream.readObject(); 
 
 			if (messages != null)
 			{
-				mConnector.setClientMessages(messages);
+				mLinker.setClientMessages(messages);
 			}
 
 			stream.close();
@@ -115,7 +115,7 @@ public class Server
 			ObjectOutputStream stream = new ObjectOutputStream(
 					new FileOutputStream(HISTORY_FILE_PATH));
 			// Then write the messages. 
-			stream.writeObject(mConnector.getClientMessages()); 
+			stream.writeObject(mLinker.getClientMessages()); 
 
 			stream.close();
 		}
