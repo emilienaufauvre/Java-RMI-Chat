@@ -24,4 +24,4 @@ compile:
 	# Creating server exec jar...
 	@cd classes/ \
 		&& jar cvfe ../lib/Server.jar superchat.Server \
-		superchat/Server* superchat/Connector*
+		superchat/Server* superchat/Connector* superchat/Client*

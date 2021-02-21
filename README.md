@@ -13,14 +13,14 @@ user:~/Online-Chat/ $ make
 * Next you need first to start the server. To do this you have
   to execute the following command:
 
-	* If you are trying to launch the server on __localhost__:
+	* If you are trying to launch the server on _localhost_:
 
 ```console
 user:~/Online-Chat/ $ java -jar lib/Server.jar 
 ```
 
-> Executing the __rmiregistry__ command is not necessary; since the server 
-  is launched on __localhost__ everything is done programmatically. 
+> Executing the _rmiregistry_ command is not necessary; since the server 
+  is launched on _localhost_ everything is done programmatically. 
 
 * Then to start a user connection:
 
@@ -29,15 +29,15 @@ user:~/Online-Chat/ $ java -jar lib/Application.jar <host>
 
 ```
 
-> Where __host__ is the machine on which the server was launched. Its
-  default value is __localhost__ if not specified.
+> Where _host_ is the machine on which the server was launched. Its
+  default value is _localhost_ if not specified.
 
 ## Troubleshooting
 
 > Error: java.rmi.ConnectException
 
-* You are not using __localhost__ as the server host, and you may be 
-  starting __rmiregistry__ from the wrong folder.
+* You are not using _localhost_ as the server host, and you may be 
+  starting _rmiregistry_ from the wrong folder.
 
 > Exception in thread "main" java.awt.AWTError: Can't connect to <X server> 
   using <IP address:x.x> as the value of the DISPLAY variable.
