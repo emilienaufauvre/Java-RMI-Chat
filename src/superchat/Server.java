@@ -131,7 +131,7 @@ public class Server
 
 		try
 		{
-			if (homeDir.exists() || homeDir.mkdirs())
+			if (! homeDir.exists() && ! homeDir.mkdirs())
 			{
 				System.err.println("Error: cannot create the Superchat home directory " +
 						HOME_DIR_PATH + ".");
@@ -152,7 +152,7 @@ public class Server
 
 		try
 		{
-			if (file.exists() || file.createNewFile())
+			if (! file.exists() && ! file.createNewFile())
 			{
 				System.err.println("Error: cannot create the history file " +
 						HISTORY_FILE_PATH + ".");
