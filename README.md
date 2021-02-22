@@ -1,5 +1,7 @@
 # Online-Chat
 
+[![Generic badge](https://img.shields.io/badge/license-Unlicense-green.svg)](https://shields.io/)
+
 An online chat for several users using the Java RMI interface, and Swing.
 
 <p align="center">
@@ -86,33 +88,33 @@ should be launched on a host, before the clients can launch their one).
 
 ## Instructions
 
-* First of all you need to compile the source code:
+1. First of all you need to compile the source code:
 
-```console
-user:~/Online-Chat/ $ make
-```
+	```console
+	user:~/Online-Chat/ $ make
+	```
 
-* Next you need first to start the server. To do this you have
+2. Next you need first to start the server. To do this you have
   to execute the following command:
 
 	* If you are trying to launch the server on `localhost`:
 
-```console
-user:~/Online-Chat/ $ java -jar lib/Server.jar 
-```
+	```console
+	user:~/Online-Chat/ $ java -jar lib/Server.jar 
+	```
 
-> Executing the `rmiregistry &`/`start rmiregistry` command is not necessary; 
-  since the server is launched on `localhost` everything is done programmatically. 
+	> Executing the `rmiregistry &`/`start rmiregistry` command is not necessary; 
+	since the server is launched on `localhost` everything is done programmatically. 
 
-* Then to start a user connection:
+3. Then to start a user connection:
 
-```console
-user:~/Online-Chat/ $ java -jar lib/Application.jar <host> 
+	```console
+	user:~/Online-Chat/ $ java -jar lib/Application.jar <host> 
 
-```
+	```
 
-> Where `host` is the machine on which the server was launched. Its
-  default value is `localhost` if not specified.
+	> Where `host` is the machine on which the server was launched. Its
+	default value is `localhost` if not specified.
 
 ## Troubleshooting
 
