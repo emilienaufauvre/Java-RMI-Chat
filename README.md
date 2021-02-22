@@ -1,6 +1,6 @@
 # Online-Chat
 
-An online chat for several users using Java RMI.
+An online chat for several users using the Java RMI interface, and Swing.
 
 <p align="center">
 <img src="assets/presentation_1.gif" width="550">
@@ -25,37 +25,64 @@ should be launched on a host, before the clients can launch their one).
 * Server logs indicate connections/disconnections.
 	
 * The server will load messages from last sessions on launch, and will save 
-  them all on exit (by using a file in `$HOME/.superchat/`).
+  them all on exit (by using the file `$HOME/.superchat/history` on the host).
 
 ### Implementation:
 
-* The `Linker` class:
+* The `Linker` class/interface:
+
+	* Created in the `Server`, and added in the _RMI register_ once.
 	
-	* Identify the clients each pseudo is unique (among the connected users) 
-      and is stored here.
+	* Identifies the clients; each pseudo is unique (among the connected users) 
+      and is stored here to ensure this uniqueness.
 		
-	* Every message sent is stored here. This allows to have the same date/
-      time source for every client, and the server to retrieve every message 
-      when exiting.
+	* Every message sent is stored here. This allows to have the same source
+	  for the date/time (which is associated to the messages) for every client
+	  (a client could use the chat in Colombia while another in Japan, this 
+	  would result in a synchronicity problem at the time level if the time source
+	  was not the same).
+	  Also the messages are stored here from the `history` file on server start,
+	  and retrieved to be saved by the server when exiting.
 		
-* The `Client` class:
+* The `Client` class/interface:
 
-	* Save states (pseudo and messages) on the server with the `Connector`. 
+	* Created in the `Application`, and added in the _RMI register_ for every user.
 
-	* Communicate with other clients by saving itself in the _RMI register_ 
-      (each `Client` will send a message/notify connection/notify disconnection 
+	* Saves states (pseudo and messages) on the server side by using the `Linker`. 
+
+	* Communicates with other clients by saving itself in the _RMI register_. 
+      Thus each `Client` will send a message/notify connection/notify disconnection 
       to others by fetching all the clients in the register, and sending them 
-      the message). 
+      the message. To do this clients are registered in the _RMI register_ with an 
+	  URI containing their pseudo (which is unique). 
 	
 * The `Application` class:
 
 	* The _GUI_ binded with a `Client`; the one launched by an user.
+
+	* Informs the `Client` of the user's inputs so that it can act on them.
 	
 * The `Server` class:
 
-	* Create the _RMI register_ and _Connector_.
+	* Creates the _RMI register_ and `Linker`; needs to be launched only once,
+	  before executing any `Application`.
 	
-	* Retrieve/Save the message history on launch/exit.
+	* Retrieves/Saves the message history on launch/exit, in the 
+	  `$HOME/.superchat/history` file on the host.
+
+### Possible improvements
+
+* For security issues, the URI associated to a Client could be improved,
+  and each pseudo associated to a password. 
+
+* For backup issues, the message history file should not be stored on the
+  host, but on the client side.
+
+* For performance issues, limitations should be added (maximum number of clients,
+  maximum length of messages, etc.), and recovery algorithms should be optimized.
+
+* For ethical issues, the chat itself should not be used this way, because
+  it implies a centralization of user data (names, messages, and metadata). 
 
 ## Instructions
 
@@ -101,9 +128,10 @@ user:~/Online-Chat/ $ java -jar lib/Application.jar <host>
 
 ## Attributions
 
-<div>Icon made by 
-<a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons
-</a> from 
-<a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com
-</a>
+<div>
+Icon made by 
+<a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> 
+from 
+<a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+.
 </div>
