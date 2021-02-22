@@ -101,8 +101,8 @@ user:~/Online-Chat/ $ make
 user:~/Online-Chat/ $ java -jar lib/Server.jar 
 ```
 
-> Executing the `rmiregistry` command is not necessary; since the server 
-  is launched on `localhost` everything is done programmatically. 
+> Executing the `rmiregistry &`/`start rmiregistry` command is not necessary; 
+  since the server is launched on `localhost` everything is done programmatically. 
 
 * Then to start a user connection:
 
