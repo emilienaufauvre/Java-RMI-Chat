@@ -33,6 +33,8 @@ public interface Client extends Remote
 
 	class BasicClient implements Client, Serializable
 	{
+		private static final long serialVersionUID = 4885573965833413193L;
+
 		// Current user state.
 		private boolean mIsConnected;
 		private String mName;

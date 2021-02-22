@@ -106,10 +106,10 @@ public interface Linker extends Remote
 	}
 
 
-	// Warnings:
-	// - "serial": UID not necessary; only 1 version of this class.
 	class Message implements Serializable
 	{
+		private static final long serialVersionUID = 667363824879925614L;
+
 		private final String mTime;
 		private final String mSender;
 		private final String mContent;
