@@ -43,7 +43,7 @@ public class Server
 		+ "history"; 
 
 	// Linker btw server and clients.
-	private Linker.BasicLinker mLinker;
+	private final Linker.BasicLinker mLinker;
 
 	public Server(String host)
 	{
@@ -67,7 +67,7 @@ public class Server
 			Registry registry = LocateRegistry.getRegistry(host);
 			registry.rebind("rmi://server/ConnectService", linker_stub);
 			// Save the messages when exiting.	
-			Runtime.getRuntime().addShutdownHook(new Thread(() -> saveMessageHistory()));
+			Runtime.getRuntime().addShutdownHook(new Thread(this::saveMessageHistory));
 		} 
 		catch (Exception e) 
 		{
@@ -131,13 +131,11 @@ public class Server
 
 		try
 		{
-			if (homeDir.exists() || homeDir.mkdirs()) 
+			if (homeDir.exists() || homeDir.mkdirs())
 			{
-				return; 
-			} 
-			else 
-			{
-				throw new Exception();
+				System.err.println("Error: cannot create the Superchat home directory " +
+						HOME_DIR_PATH + ".");
+				System.exit(-1);
 			}
 		}
 		catch (Exception e)
@@ -156,11 +154,9 @@ public class Server
 		{
 			if (file.exists() || file.createNewFile())
 			{
-				return;
-			}
-			else
-			{
-				throw new Exception();
+				System.err.println("Error: cannot create the history file " +
+						HISTORY_FILE_PATH + ".");
+				System.exit(-1);
 			}
 		}
 		catch (Exception e)

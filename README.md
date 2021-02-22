@@ -11,7 +11,7 @@ An online chat for several users using the Java RMI interface, and Swing.
 ## Description
 
 Based on Java RMI default implementation, the chat consists in one 
-server application, and another for clients (i.e the server application 
+server application, and another for clients (i.e. the server application 
 should be launched on a host, before the clients can launch their one).
 
 ### Features:
@@ -43,24 +43,24 @@ should be launched on a host, before the clients can launch their one).
 	  (a client could use the chat in Colombia while another in Japan, this 
 	  would result in a synchronicity problem at the time level if the time source
 	  was not the same).
-	  Also the messages are stored here from the `history` file on server start,
+	  Also, the messages are stored here from the `history` file on server start,
 	  and retrieved to be saved by the server when exiting.
 		
 * The `Client` class/interface:
 
 	* Created in the `Application`, and added in the _RMI register_ for every user.
 
-	* Saves states (pseudo and messages) on the server side by using the `Linker`. 
+	* Saves state (pseudo and messages) on the server side by using the `Linker`. 
 
 	* Communicates with other clients by saving itself in the _RMI register_. 
-      Thus each `Client` will send a message/notify connection/notify disconnection 
+      Thus, each `Client` will send a message/notify connection/notify disconnection 
       to others by fetching all the clients in the register, and sending them 
-      the message. To do this clients are registered in the _RMI register_ with an 
-	  URI containing their pseudo (which is unique). 
+      the message. To do all of this, clients are registered in the _RMI register_ 
+	  with a URI containing their pseudo (which is unique). 
 	
 * The `Application` class:
 
-	* The _GUI_ binded with a `Client`; the one launched by an user.
+	* The _GUI_ bound with a `Client`; the one launched by a user.
 
 	* Informs the `Client` of the user's inputs so that it can act on them.
 	
@@ -88,7 +88,7 @@ should be launched on a host, before the clients can launch their one).
 
 ## Instructions
 
-1. First of all you need to compile the source code:
+1. First you need to compile the source code:
 
 	```console
 	user:~/Online-Chat/ $ make

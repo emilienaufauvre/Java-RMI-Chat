@@ -1,14 +1,11 @@
 package superchat;
 
-import javax.swing.JTextArea;
-import javax.swing.DefaultListModel;
-
 import java.io.Serializable;
-
-import java.rmi.*;
-import java.rmi.registry.Registry;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.server.UnicastRemoteObject; 
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 
 /**
@@ -19,27 +16,22 @@ import java.rmi.server.UnicastRemoteObject;
 public interface Client extends Remote
 {
 	/**
-	 * Display the message sended by "sender" at time "time". Called by other client. 
+	 * Display the message sent by "sender" at time "time". Called by other client.
 	 */
-	public void writeMessage(String time, String sender, String message) throws RemoteException;
+	void writeMessage(String time, String sender, String message) throws RemoteException;
 
 	/**
 	 * Notify that the user "name" is disconnected. Called by other client.
 	 */
-	public void notifyDisconnected(String name) throws RemoteException;
+	void notifyDisconnected(String name) throws RemoteException;
 
 	/**
 	 * Notify that the user "name" is connected. Called by other client.
 	 */
-	public void notifyConnected(String name) throws RemoteException;
-
-	public String getName() throws RemoteException;
+	void notifyConnected(String name) throws RemoteException;
 
 
-	@SuppressWarnings("serial")
-	// Warnings:
-	// - "serial": UID not necessary; only 1 version of this class.
-	public class BasicClient implements Client, Serializable
+	class BasicClient implements Client, Serializable
 	{
 		// Current user state.
 		private boolean mIsConnected;
@@ -67,7 +59,7 @@ public interface Client extends Remote
 		}
 
 		/**
-		 * Connect the user to the server, and return true if successfull.
+		 * Connect the user to the server, and return true if successful.
 		 */
 		public boolean connect(String name)
 		{
@@ -95,7 +87,7 @@ public interface Client extends Remote
 			{
 				// Add this client to the registry.
 				Client this_stub = (Client) 
-					UnicastRemoteObject.exportObject((Client) this, 0);
+					UnicastRemoteObject.exportObject(this, 0);
 				mRegistry.rebind("rmi://client/" + name, this_stub); 
 
 				mName = name;
@@ -129,7 +121,7 @@ public interface Client extends Remote
 			{
 				// Try to unbind the user on the server side.
 				mRegistry.unbind("rmi://client/" + mName);
-				UnicastRemoteObject.unexportObject((Client) this, true);
+				UnicastRemoteObject.unexportObject(this, true);
 				mLinker.disconnect(mName);
 				mIsConnected = false;
 			}
@@ -158,7 +150,7 @@ public interface Client extends Remote
 				// Save this message on the server.
 				String time = mLinker.addMessage(mName, message);
 				// Spread this message to every client (including herself/himself).
-				mLinker.getClientNames().stream().forEach(
+				mLinker.getClientNames().forEach(
 						s -> 
 						{
 							try 
@@ -208,7 +200,7 @@ public interface Client extends Remote
 		{
 			try 
 			{
-				mLinker.getClientNames().stream().forEach(
+				mLinker.getClientNames().forEach(
 						s -> 
 						{
 							try 
@@ -246,7 +238,7 @@ public interface Client extends Remote
 		{
 			try 
 			{
-				mLinker.getClientNames().stream().forEach(
+				mLinker.getClientNames().forEach(
 						s -> 
 						{
 							try 
@@ -281,7 +273,7 @@ public interface Client extends Remote
 
 			try 
 			{
-				mLinker.getClientMessages().stream().forEach(
+				mLinker.getClientMessages().forEach(
 						m -> 
 						{
 							try
@@ -332,12 +324,6 @@ public interface Client extends Remote
 			}
 
 			mApp.addToUsersList(name);
-		}
-
-		@Override
-		public String getName() throws RemoteException
-		{
-			return mName;
 		}
 
 		public boolean isConnected()

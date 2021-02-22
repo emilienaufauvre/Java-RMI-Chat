@@ -1,42 +1,18 @@
 package superchat;
 
-import java.io.File;
-
-import java.awt.Container;
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.image.BufferedImage;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import javax.swing.JTextPane;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
-import javax.swing.DefaultListModel;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.border.EmptyBorder;
-
-import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 
 /**
- * The GUI binded with a "Client".
+ * The GUI bound with a "Client".
  */
 public class Application
 {
@@ -72,7 +48,6 @@ public class Application
 
 	// Constants.
 	private final String FONT = "";
-	private final String APP_NAME = "Super-chat v1";
 
 	public final static SimpleAttributeSet ATTR_PLAIN 
 		= new SimpleAttributeSet(); 
@@ -87,7 +62,7 @@ public class Application
 
 
 	// To manage the client session and messages. 
-	private Client.BasicClient mClient;
+	private final Client.BasicClient mClient;
 	// App icon.
 	private BufferedImage mIcon;
 	// The GUI window.
@@ -298,7 +273,7 @@ public class Application
 		constraints2.weighty = 0;
 		constraints2.gridx = 1;
         constraints2.gridy = 0;
-		constraints1.fill = GridBagConstraints.HORIZONTAL;
+		constraints2.fill = GridBagConstraints.HORIZONTAL;
 
 		JPanel panel = new JPanel(new GridBagLayout());
 		panel.setBorder(new EmptyBorder(40, 20, 40, 40));
@@ -344,6 +319,7 @@ public class Application
 	private JPanel getIconPanel()
 	{
 		// App title.
+		String APP_NAME = "Super-chat v1";
 		JLabel label1 = new JLabel(APP_NAME, SwingConstants.CENTER);
 		label1.setFont(new Font(FONT, Font.BOLD, 60));
 		label1.setForeground(new Color(0x2484c2));
@@ -373,8 +349,8 @@ public class Application
 		panel_.setBorder(new EmptyBorder(0, 0, 20, 0));
 		panel_.add(label);
 		// User names.
-		mUserList = new DefaultListModel<String>();
-		JList<String> list = new JList<String>(mUserList);
+		mUserList = new DefaultListModel<>();
+		JList<String> list = new JList<>(mUserList);
 		list.setBorder(new EmptyBorder(40, 40, 40, 20));
 		list.setFont(new Font(FONT, Font.PLAIN, 25));
         list.setVisibleRowCount(8);
@@ -419,7 +395,7 @@ public class Application
 		constraints2.weighty = 0;
 		constraints2.gridx = 1;
         constraints2.gridy = 0;
-		constraints1.fill = GridBagConstraints.HORIZONTAL;
+		constraints2.fill = GridBagConstraints.HORIZONTAL;
 
 		JPanel panel = new JPanel(new GridBagLayout());
 		panel.setBorder(new EmptyBorder(20, 40, 40, 20));
@@ -498,7 +474,7 @@ public class Application
 		{
 			doc.insertString(doc.getLength(), message, attributes);
 		}
-		catch (Exception e)
+		catch (Exception ignored)
 		{
 		}
 

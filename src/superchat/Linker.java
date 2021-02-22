@@ -21,34 +21,31 @@ public interface Linker extends Remote
 	 * return the date/time the message was sent (thus all the message dates
 	 * will be from the same source i.e. the server).
 	 */
-	public String addMessage(String sender, String message) throws RemoteException;
+	String addMessage(String sender, String message) throws RemoteException;
 
 	/**
 	 * Return true if the user was correctly created on the server side,
 	 * Otherwise return false.
-	 * Reasons why the operation could not be successfull:
+	 * Reasons why the operation could not be successful:
 	 * - An user with the same name already exists.
 	 */
-	public boolean connect(String name) throws RemoteException;
+	boolean connect(String name) throws RemoteException;
 
 	/**
 	 * Remove the client identified by name from the list of connected users.
 	 */
-	public void disconnect(String name) throws RemoteException;
+	void disconnect(String name) throws RemoteException;
 
-	public ArrayList<String> getClientNames() throws RemoteException;
+	ArrayList<String> getClientNames() throws RemoteException;
 
-	public ArrayList<Message> getClientMessages() throws RemoteException;
+	ArrayList<Message> getClientMessages() throws RemoteException;
 
-	public void setClientMessages(ArrayList<Message> messages) throws RemoteException;
+	void setClientMessages(ArrayList<Message> messages) throws RemoteException;
 
 
-	public class BasicLinker implements Linker 
+	class BasicLinker implements Linker
 	{
-		// Constants.
-		private final String DATE_FORMAT = "HH:mm:ss";
-
-		private ArrayList<String> mClientNames;
+		private final ArrayList<String> mClientNames;
 		private ArrayList<Message> mClientMessages;
 
 		public BasicLinker()
@@ -60,6 +57,8 @@ public interface Linker extends Remote
 		@Override
 		public String addMessage(String sender, String message) throws RemoteException
 		{
+			// Constants.
+			String DATE_FORMAT = "HH:mm:ss";
 			String time = LocalDateTime.now()
 				.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
 			mClientMessages.add(new Message(time, sender, message));
@@ -107,14 +106,13 @@ public interface Linker extends Remote
 	}
 
 
-	@SuppressWarnings("serial")
 	// Warnings:
 	// - "serial": UID not necessary; only 1 version of this class.
-	public class Message implements Serializable
+	class Message implements Serializable
 	{
-		private String mTime;
-		private String mSender;
-		private String mContent;
+		private final String mTime;
+		private final String mSender;
+		private final String mContent;
 
 		private Message(String time, String sender, String content)
 		{
