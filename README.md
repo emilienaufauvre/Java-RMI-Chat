@@ -1,13 +1,21 @@
-# Online-Chat
-
 [![Generic badge](https://img.shields.io/badge/license-Unlicense-green.svg)](https://shields.io/)
 
-An online chat for several users using the Java RMI interface, and Swing.
+<div align="center">
+	<br>
+	<br>
+	<img src="assets/launcher.png" width="200" height="200">
+	<h1>Superchat</h1>
+	<p>
+	<b>An online chat for several users using the Java RMI interface, and Swing.</b>
+	</p>
+	<br>
+</div>
+
+## Demonstration
 
 <p align="center">
-<br>
-<img src="assets/presentation_1.gif" width="100%">
-<br><br>
+	<img src="assets/presentation_1.gif" width="100%">
+	<br>
 </p>
 
 ## Description
@@ -137,9 +145,9 @@ using \<IP address:x.x\> as the value of the DISPLAY variable.
 ## Attributions
 
 <div>
-Icon made by 
-<a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> 
-from 
-<a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
-.
+	Icon made by 
+	<a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> 
+	from 
+	<a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+	.
 </div>
