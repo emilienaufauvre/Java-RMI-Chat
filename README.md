@@ -5,7 +5,9 @@
 An online chat for several users using the Java RMI interface, and Swing.
 
 <p align="center">
-<img src="assets/presentation_1.gif" width="550">
+<br><br>
+<img src="assets/presentation_1.gif" width="100%">
+<br><br>
 </p>
 
 ## Description
