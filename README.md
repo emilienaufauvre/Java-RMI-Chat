@@ -120,13 +120,17 @@ should be launched on a host, before the clients can launch their one).
 
 ## Troubleshooting
 
-> Error: java.rmi.ConnectException
+```console
+Error: java.rmi.ConnectException
+```
 
 * You are not using `localhost` as the server host, and you may be 
   starting `rmiregistry` from the wrong folder.
 
-> Exception in thread "main" java.awt.AWTError: Can't connect to \<X server\> 
-  using \<IP address:x.x\> as the value of the DISPLAY variable.
+```console
+Exception in thread "main" java.awt.AWTError: Can't connect to \<X server\> 
+using \<IP address:x.x\> as the value of the DISPLAY variable.
+```
 
 * You may need to execute the `export DISPLAY=:0` command.
 
