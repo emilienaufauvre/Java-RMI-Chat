@@ -9,6 +9,8 @@
 	<b>An online chat for several users using the Java RMI interface, and Swing.</b>
 	</p>
 	<br>
+	<br>
+	<br>
 </div>
 
 ## Demonstration
