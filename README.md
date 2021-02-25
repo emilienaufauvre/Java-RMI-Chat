@@ -103,7 +103,7 @@ should be launched on a host, before the clients can launch their one).
 1. First you need to compile the source code:
 
 	```console
-	user:~/Online-Chat/ $ make
+	user:~/Java-RMI-Chat/ $ make
 	```
 
 2. Next you need first to start the server. To do this you have
@@ -112,7 +112,7 @@ should be launched on a host, before the clients can launch their one).
 	* If you are trying to launch the server on `localhost`:
 
 	```console
-	user:~/Online-Chat/ $ java -jar lib/Server.jar 
+	user:~/Java-RMI-Chat/ $ java -jar lib/Server.jar 
 	```
 
 	> Executing the `rmiregistry &`/`start rmiregistry` command is not necessary; 
@@ -121,7 +121,7 @@ should be launched on a host, before the clients can launch their one).
 3. Then to start a user connection:
 
 	```console
-	user:~/Online-Chat/ $ java -jar lib/Application.jar <host> 
+	user:~/Java-RMI-Chat/ $ java -jar lib/Application.jar <host> 
 
 	```
 
