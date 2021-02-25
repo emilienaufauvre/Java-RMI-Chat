@@ -25,6 +25,7 @@
 Based on Java RMI default implementation, the chat consists in one 
 server application, and another for clients (i.e. the server application 
 should be launched on a host, before the clients can launch their one).
+Based on a P2P traffic model, our chat is centralized. 
 
 ### Features:
 
@@ -64,7 +65,7 @@ should be launched on a host, before the clients can launch their one).
 
 	* Saves state (pseudo and messages) on the server side by using the `Linker`. 
 
-	* Communicates with other clients by saving itself in the _RMI register_. 
+	* Communicates with other clients by saving itself in the _RMI register_ (P2P). 
       Thus, each `Client` will send a message/notify connection/notify disconnection 
       to others by fetching all the clients in the register, and sending them 
       the message. To do all of this, clients are registered in the _RMI register_ 
@@ -96,7 +97,9 @@ should be launched on a host, before the clients can launch their one).
   maximum length of messages, etc.), and recovery algorithms should be optimized.
 
 * For ethical issues, the chat itself should not be used this way, because
-  it implies a centralization of user data (names, messages, and metadata). 
+  it implies a centralization of user data (names, messages, and metadata).
+  Since we have already implemented a P2P traffic model, we could make this chat
+  completly decentralized.
 
 ## Instructions
 
