@@ -91,7 +91,9 @@ Based on a P2P traffic model, our chat is centralized.
   and each pseudo associated to a password. 
 
 * For backup issues, the message history file should not be stored on the
-  host, but on the client side.
+  host, but on the client side. We could also save the message history 
+  every _X_ minutes or every _Y_ messages to avoid loosing them on a power cut 
+  for example.
 
 * For performance issues, limitations should be added (maximum number of clients,
   maximum length of messages, etc.), and recovery algorithms should be optimized.
