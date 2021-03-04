@@ -101,7 +101,7 @@ Based on a P2P traffic model, our chat is centralized.
 * For ethical issues, the chat itself should not be used this way, because
   it implies a centralization of user data (names, messages, and metadata).
   Since we have already implemented a P2P traffic model, we could make this chat
-  completly decentralized.
+  completely decentralized.
 
 ## Instructions
 
